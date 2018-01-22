@@ -80,19 +80,35 @@
       }
 
       render() {
+        // return (
+        //   <div>
+        //     <p>Google Sheets API Quickstart</p>
+        //     {this.state.apiLoaded &&
+        //       <div>
+        //         {!this.state.signedIn && <button onClick={this.authorize}>Authorize</button>}
+        //         {this.state.signedIn && <button onClick={this.signOut}>Sign Out</button>}
+        //       </div>
+        //     }
+
+        //   </div>
+        // )
         return (
-          <div>
-            <p>Google Sheets API Quickstart</p>
-            {this.state.apiLoaded &&
+          <GoogleAPI clientId={} apiKey={} scopes={} discoveryDocs={}>
+            {({ client, authorize, signOut, signedIn }) => (
               <div>
-                {!this.state.signedIn && <button onClick={this.authorize}>Authorize</button>}
-                {this.state.signedIn && <button onClick={this.signOut}>Sign Out</button>}
+                <p>Google Sheets API Quickstart</p>
+                {!signedIn && <button onClick={authorize}>Authorize</button>}
+                {signedIn && <button onClick={signOut}>Sign Out</button>}
+                <GoogleSheet client={client} range={range}>
+                  {({ error, result }) => (
+                    <pre>
+                      {JSON.stringify(result.values, null, 2)}
+                    </pre>
+                  )}
+                </GoogleSheet>
               </div>
-            }
-            <pre>
-              {JSON.stringify(this.state.things, null, 2)}
-            </pre>
-          </div>
+            )}
+          </GoogleAPI>
         )
       }
 
