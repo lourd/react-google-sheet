@@ -26,10 +26,15 @@
     class GoogleAPI extends React.Component {
       state = {
         signedIn: false,
-        client: null
+        client: null,
+        loading: true
       }
 
-      async componentDidMount() {
+      componentDidMount() {
+        this.setupApi()
+      }
+
+      async setupApi() {
         if (typeof window.gapi === 'undefined') {
           await loadScript('https://apis.google.com/js/api.js')
         }
@@ -45,6 +50,7 @@
         this.auth = gapi.auth2.getAuthInstance()
         this.setState({
           client: gapi.client,
+          loading: false,
           signedIn: this.auth.isSignedIn.get()
         })
         // Listen for sign-in state changes.
@@ -68,7 +74,8 @@
           client: this.state.client,
           signedIn: this.state.signedIn,
           authorize: this.authorize,
-          signout: this.signout
+          signout: this.signout,
+          loading: this.state.loading
         })
       }
 
@@ -123,11 +130,11 @@
       const range = 'Crayfish!3:12'
 
       return (
-        <GoogleAPI clientId={CLIENT_ID} apiKeyAPI_KEY scopes={[SCOPES]} discoveryDocs={DISCOVERY_DOCS}>
-          {({ client, authorize, signout, signedIn }) => (
+        <GoogleAPI clientId={CLIENT_ID} apiKey={API_KEY} scopes={[SCOPES]} discoveryDocs={DISCOVERY_DOCS}>
+          {({ client, authorize, loading: apiLoading, signout, signedIn }) => (
             <div>
               <p>Google Sheets API Quickstart</p>
-              {!signedIn && <button onClick={authorize}>Authorize</button>}
+              {!apiLoading && !signedIn && <button onClick={authorize}>Authorize</button>}
               {signedIn && <button onClick={signout}>Sign Out</button>}
               {client && signedIn &&
                 <GoogleSheet client={client} id={spreadsheetId} range={range}>
