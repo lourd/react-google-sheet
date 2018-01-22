@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Google Sheets API Quickstart</title>
+  <meta charset='utf-8' />
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    // Client ID and API key from the Developer Console
+    const CLIENT_ID = '377437361891-v0ib2hve7mupdcpsibtuqr35o2h61op9.apps.googleusercontent.com';
+    const API_KEY = 'AIzaSyCmxlWlcNnx6oWgMrSLAkYzOEa3efiMDtY';
+
+    // Array of API discovery doc URLs for APIs used by the quickstart
+    const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+
+    // Authorization scopes required by the API; multiple scopes can be
+    // included, separated by spaces.
+    const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
+    const spreadsheetId = '1_rkdEgDc8ZktKB7ZLIT1H8-xKSneKWNuHqF0On9Ng-E'
+    const range = 'Crayfish!3:12'
+
+    class App extends React.Component {
+      state = {
+        apiLoaded: false,
+        signedIn: false,
+        things: []
+      }
+
+      componentDidMount() {
+        window.handleClientLoad = this.initApi
+      }
+
+      initApi = () => {
+        gapi.load('client:auth2', async () => {
+          await gapi.client.init({
+            apiKey: API_KEY,
+            clientId: CLIENT_ID,
+            discoveryDocs: DISCOVERY_DOCS,
+            scope: SCOPES
+          })
+          const newState = {
+            apiLoaded: true
+          }
+          this.auth = gapi.auth2.getAuthInstance()
+          // Listen for sign-in state changes.
+          this.auth.isSignedIn.listen(signedIn => this.setState({ signedIn }));
+          // Handle the initial sign-in state.
+          if (this.auth.isSignedIn.get()) {
+            newState.signedIn = true;
+          }
+          this.setState(newState)
+          this.fetchData();
+        })
+      }
+
+      authorize = () => {
+        if (this.auth) {
+          this.auth.signIn()
+        }
+      }
+
+      signout = () => {
+        if (this.auth) {
+          this.auth.signOut()
+        }
+      }
+
+      async fetchData() {
+        const response = await gapi.client.sheets.spreadsheets.values.get({
+          spreadsheetId,
+          range,
+        })
+        this.setState({ things: response.result.values })
+      }
+
+      render() {
+        return (
+          <div>
+            <p>Google Sheets API Quickstart</p>
+            {this.state.apiLoaded &&
+              <div>
+                {!this.state.signedIn && <button onClick={this.authorize}>Authorize</button>}
+                {this.state.signedIn && <button onClick={this.signOut}>Sign Out</button>}
+              </div>
+            }
+            <pre>
+              {JSON.stringify(this.state.things, null, 2)}
+            </pre>
+          </div>
+        )
+      }
+
+
+    }
+
+    ReactDOM.render(
+      <App/>,
+      document.getElementById('root')
+    );
+
+  </script>
+  <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
+  </script>
+</body>
+
+</html>
