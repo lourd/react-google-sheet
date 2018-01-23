@@ -82,11 +82,9 @@
       async setupApi() {
         try {
           if (typeof window.gapi === 'undefined') {
-            // TODO better error message if this fails
             await loadScript('https://apis.google.com/js/api.js')
           }
           if (!gapi.client) {
-            // TODO check if this callback can have an error and handle better
             await new Promise((resolve, reject) => gapi.load('client:auth2', {
               callback: resolve,
               onerror: reject
