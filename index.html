@@ -147,7 +147,7 @@
         this.fetch()
       }
 
-      componentDidUpdate(prevProps, prevState) {
+      componentDidUpdate(prevProps) {
         if (!equalByKeys(this.props, prevProps, 'id', 'range')) {
           this.fetch()
         }
