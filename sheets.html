@@ -110,6 +110,12 @@
         this.fetch()
       }
 
+      componentDidUpdate(prevProps, prevState) {
+        if (prevProps.id !== this.props.id || prevProps.range !== this.props.range) {
+          this.fetch()
+        }
+      }
+
       fetch = async () => {
         this.setState({ loading: true })
         assert(
@@ -117,11 +123,15 @@
           `Google API client should be setup & authenticated with GoogleApiProvider before it's used in ${this.constructor.name}`
         )
         try {
-          const response = await this.props.api.client.sheets.spreadsheets.values.get({
+          const params = {
             spreadsheetId: this.props.id,
             range: this.props.range
-          })
-          this.setState({ loading: false, data: response.result.values  })
+          }
+          const response = await this.props.api.client.sheets.spreadsheets.values.get(params)
+          // Unable to cancel requests, so we wait until it's done and check it's still the desired one
+          if (this.props.id == params.spreadsheetId && this.props.range == params.range) {
+            this.setState({ loading: false, data: response.result.values  })
+          }
         } catch (response) {
           this.setState({ loading: false, error: response.result.error })
         }
@@ -148,55 +158,101 @@
       labels[0] = 'number'
       return data.slice(1).map(row => zipObject(labels, row))
     }
-
     memoize.Cache = WeakMap
     objectify = memoize(objectify)
 
     const Blob = ({ data }) =>
       <pre>
-        {JSON.stringify(data, null, 2)}
+        {JSON.stringify(objectify(data), null, 2)}
       </pre>
 
     const Table = ({ data }) =>
       <table>
         <thead>
           <tr>
-            {data[0].map(label => <th>{label}</th>)}
+            {data[0].map((label, i) => <th key={i}>{label}</th>)}
           </tr>
         </thead>
         <tbody>
-          {data.slice(1).map(row =>
-            <tr>
-              {row.map(cell => <td>{cell}</td>)}
+          {data.slice(1).map((row, i) =>
+            <tr key={i}>
+              {row.map((cell, j) => <td key={j}>{cell}</td>)}
             </tr>
           )}
         </tbody>
       </table>
 
-    const choices = {
+    const RenderChoices = {
       table: Table,
-      card: Blob,
+      blob: Blob,
     }
 
     const MyData = ({ data, render }) => {
-      const Comp = choices[render]
+      const Comp = RenderChoices[render]
       return <Comp data={data} />
     }
 
-    const MySpreadsheet = () => {
-      const spreadsheetId = '1_rkdEgDc8ZktKB7ZLIT1H8-xKSneKWNuHqF0On9Ng-E'
-      const range = 'Crayfish!2:12'
+    const MySpreadsheet = (props) => {
       return (
-        <GSheet id={spreadsheetId} range={range}>
+        <GSheet id={props.id} range={props.range}>
           {({ error, data, loading, refetch }) => (
-            data
-              ? <MyData data={data} render="table"/>
-              : error
-                ? JSON.stringify(error.message, null, 2)
-                : null
+            loading
+              ? "Getting data..."
+              : data
+                ? <MyData data={data} render={props.render}/>
+                : error
+                  ? JSON.stringify(error.message, null, 2)
+                  : null
           )}
         </GSheet>
       );
+    }
+
+    class DynamicSpreadsheet extends React.Component {
+      state = {
+        id: '1_rkdEgDc8ZktKB7ZLIT1H8-xKSneKWNuHqF0On9Ng-E',
+        range: 'Crayfish!2:12',
+        render: "table",
+        submitted: null
+      }
+
+      handleSubmit = event => {
+        event.preventDefault();
+        this.setState({
+          submitted: {
+            id: this.state.id,
+            range: this.state.range
+          }
+        })
+      }
+
+      handleIdChange = event => this.setState({ id: event.target.value })
+      handleRangeChange = event => this.setState({ range: event.target.value })
+      handleRenderChange = event => this.setState({ render: event.target.value })
+
+      render() {
+        return (
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <input placeholder="Spreadsheet ID" onChange={this.handleIdChange} value={this.state.id}/>
+              <input placeholder="Range" onChange={this.handleRangeChange} value={this.state.range} />
+              <select value={this.state.render} onChange={this.handleRenderChange}>
+                {Object.keys(RenderChoices).map(key =>
+                  <option value={key} key={key}>{key}</option>
+                )}
+              </select>
+              <input type="submit" value="Submit" />
+            </form>
+            {this.state.submitted &&
+              <MySpreadsheet
+                id={this.state.submitted.id}
+                range={this.state.submitted.range}
+                render={this.state.render}
+              />
+            }
+          </div>
+        )
+      }
     }
 
     const App = () => {
@@ -217,7 +273,7 @@
               {apiLoading && "Loading..."}
               {!apiLoading && !signedIn && <button onClick={authorize}>Authorize</button>}
               {signedIn && <button onClick={signout}>Sign Out</button>}
-              {signedIn && <MySpreadsheet />}
+              {signedIn && <DynamicSpreadsheet />}
             </div>
           )}
         </GoogleAPI>
