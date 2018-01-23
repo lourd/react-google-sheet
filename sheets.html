@@ -2,13 +2,28 @@
 <html>
 
 <head>
-  <title>Google Sheets API Quickstart</title>
+  <title>Google Sheets React Component Demo</title>
   <meta charset='utf-8' />
   <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
   <script src="https://unpkg.com/react-broadcast@0.7.0-rc.2/umd/react-broadcast.min.js"></script>
-  <script src="https://unpkg.com/lodash@4.17.4/lodash.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.6.0/prop-types.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    label {
+      display: inline-block;
+      margin-bottom: 2px;
+      font-size: 0.8em;
+    }
+
+    input[type="submit"] {
+      margin-top: 5px;
+    }
+  </style>
 </head>
 
 <body>
@@ -25,56 +40,18 @@
       })
     }
 
-    function assert(condition, msg = `Invariant ${condition} not met`) {
-      if (!condition) {
-        throw new Error(msg)
-      }
-    }
-
     const { createContext } = ReactBroadcast
-    const { memoize, zipObject } = _
 
     const { Provider: GoogleApiProvider, Consumer: GoogleApiConsumer } = createContext(null);
     GoogleApiProvider.displayName = 'GoogleApiProvider'
     GoogleApiConsumer.displayName = 'GoogleApiConsumer'
 
     class GoogleAPI extends React.Component {
-      state = {
-        signedIn: false,
-        client: null,
-        loading: true,
-        authorize: this.authorize,
-        signout: this.signout
-      }
-
-      componentDidMount() {
-        this.setupApi()
-      }
-
-      // TODO cancellation?
-      async setupApi() {
-        if (typeof window.gapi === 'undefined') {
-          // TODO better error message if this fails
-          await loadScript('https://apis.google.com/js/api.js')
-        }
-        if (!gapi.client) {
-          // TODO check if this callback can have an error and handle better
-          await new Promise(resolve => gapi.load('client:auth2', resolve));
-        }
-        await gapi.client.init({
-          apiKey: this.props.apiKey,
-          clientId: this.props.clientId,
-          discoveryDocs: this.props.discoveryDocs,
-          scope: this.props.scopes.join(',')
-        })
-        this.auth = gapi.auth2.getAuthInstance()
-        this.setState({
-          client: gapi.client,
-          loading: false,
-          signedIn: this.auth.isSignedIn.get()
-        })
-        // Listen for sign-in state changes.
-        this.auth.isSignedIn.listen(signedIn => this.setState({ signedIn }));
+      static propTypes = {
+        clientId: PropTypes.string.isRequired,
+        apiKey: PropTypes.string.isRequired,
+        discoveryDocs: PropTypes.arrayOf(PropTypes.string).isRequired,
+        scopes: PropTypes.arrayOf(PropTypes.string).isRequired
       }
 
       authorize = () => {
@@ -89,6 +66,54 @@
         }
       }
 
+      state = {
+        signedIn: false,
+        client: null,
+        loading: true,
+        error: null,
+        authorize: this.authorize,
+        signout: this.signout
+      }
+
+      componentDidMount() {
+        this.setupApi()
+      }
+
+      async setupApi() {
+        try {
+          if (typeof window.gapi === 'undefined') {
+            // TODO better error message if this fails
+            await loadScript('https://apis.google.com/js/api.js')
+          }
+          if (!gapi.client) {
+            // TODO check if this callback can have an error and handle better
+            await new Promise((resolve, reject) => gapi.load('client:auth2', {
+              callback: resolve,
+              onerror: reject
+            }));
+          }
+          await gapi.client.init({
+            apiKey: this.props.apiKey,
+            clientId: this.props.clientId,
+            discoveryDocs: this.props.discoveryDocs,
+            scope: this.props.scopes.join(',')
+          })
+          this.auth = gapi.auth2.getAuthInstance()
+          this.setState({
+            client: gapi.client,
+            loading: false,
+            signedIn: this.auth.isSignedIn.get()
+          })
+          // Listen for sign-in state changes.
+          this.auth.isSignedIn.listen(signedIn => this.setState({ signedIn }));
+        } catch (error) {
+          this.setState({
+            loading: false,
+            error
+          })
+        }
+      }
+
       render() {
         return (
           <GoogleApiProvider value={this.state}>
@@ -100,6 +125,12 @@
     }
 
     class GSheetData extends React.Component {
+      static propTypes = {
+        id: PropTypes.string.isRequired,
+        range: PropTypes.string.isRequired,
+        api: PropTypes.object.isRequired
+      }
+
       state = {
         error: null,
         data: null,
@@ -118,10 +149,6 @@
 
       fetch = async () => {
         this.setState({ loading: true })
-        assert(
-          this.props.api,
-          `Google API client should be setup & authenticated with GoogleApiProvider before it's used in ${this.constructor.name}`
-        )
         try {
           const params = {
             spreadsheetId: this.props.id,
@@ -153,17 +180,9 @@
       </GoogleApiConsumer>
     )
 
-    let objectify = data => {
-      let labels = data[0]
-      labels[0] = 'number'
-      return data.slice(1).map(row => zipObject(labels, row))
-    }
-    memoize.Cache = WeakMap
-    objectify = memoize(objectify)
-
     const Blob = ({ data }) =>
       <pre>
-        {JSON.stringify(objectify(data), null, 2)}
+        {JSON.stringify(data, null, 2)}
       </pre>
 
     const Table = ({ data }) =>
@@ -192,27 +211,81 @@
       return <Comp data={data} />
     }
 
-    const MySpreadsheet = (props) => {
-      return (
-        <GSheet id={props.id} range={props.range}>
-          {({ error, data, loading, refetch }) => (
-            loading
-              ? "Getting data..."
-              : data
-                ? <MyData data={data} render={props.render}/>
-                : error
-                  ? JSON.stringify(error.message, null, 2)
-                  : null
-          )}
-        </GSheet>
-      );
+    // Wraps the GSheet component to provide some basic components
+    // for display loading & error states
+    const SimpleGSheet = (props) => (
+      <GSheet id={props.id} range={props.range}>
+        {({ error, data, loading }) => (
+          loading
+            ? "Getting data..."
+            : data
+              ? <MyData data={data} render={props.render}/>
+              : error
+                ? JSON.stringify(error.message, null, 2)
+                : null
+        )}
+      </GSheet>
+    )
+
+    class Field extends React.Component {
+      static propTypes = {
+        name: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired,
+        value: PropTypes.any,
+        label: PropTypes.string,
+      }
+
+      handleChange = event => {
+        this.props.onChange(this.props.name, event.target.value)
+      }
+
+      render() {
+        const label = this.props.label || this.props.name
+        return (
+          <div>
+            <label htmlFor={this.props.name}>{label}</label>
+            <div>
+              <input id={this.props.name} value={this.props.value} onChange={this.handleChange} />
+            </div>
+          </div>
+        )
+      }
+    }
+
+    class Select extends React.Component {
+      static propTypes = {
+        name: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired,
+        value: PropTypes.any,
+        label: PropTypes.string,
+      }
+
+      handleChange = event => {
+        this.props.onChange(this.props.name, event.target.value)
+      }
+
+      render() {
+        const label = this.props.label || this.props.name
+        return (
+          <div>
+            <label htmlFor={this.props.name}><small>{label}</small></label>
+            <div>
+              <select id={this.props.name} value={this.props.value} onChange={this.handleChange}>
+                {this.props.options.map(str =>
+                  <option value={str} key={str}>{str}</option>
+                )}
+              </select>
+            </div>
+          </div>
+        )
+      }
     }
 
     class DynamicSpreadsheet extends React.Component {
       state = {
-        id: '1_rkdEgDc8ZktKB7ZLIT1H8-xKSneKWNuHqF0On9Ng-E',
-        range: 'Crayfish!2:12',
-        render: "table",
+        id: '',
+        range: '',
+        render: 'table',
         submitted: null
       }
 
@@ -226,25 +299,27 @@
         })
       }
 
-      handleIdChange = event => this.setState({ id: event.target.value })
-      handleRangeChange = event => this.setState({ range: event.target.value })
+      handleChange = (key, value) => this.setState({ [key]: value })
+
       handleRenderChange = event => this.setState({ render: event.target.value })
 
       render() {
         return (
           <div>
             <form onSubmit={this.handleSubmit}>
-              <input placeholder="Spreadsheet ID" onChange={this.handleIdChange} value={this.state.id}/>
-              <input placeholder="Range" onChange={this.handleRangeChange} value={this.state.range} />
-              <select value={this.state.render} onChange={this.handleRenderChange}>
-                {Object.keys(RenderChoices).map(key =>
-                  <option value={key} key={key}>{key}</option>
-                )}
-              </select>
+              <Field label="Spreadsheet ID" name="id" onChange={this.handleChange} value={this.state.id} />
+              <Field label="Range" name="range" onChange={this.handleChange} value={this.state.range} />
+              <Select
+                label="Display"
+                name="render"
+                onChange={this.handleChange}
+                value={this.state.render}
+                options={Object.keys(RenderChoices)}
+              />
               <input type="submit" value="Submit" />
             </form>
             {this.state.submitted &&
-              <MySpreadsheet
+              <SimpleGSheet
                 id={this.state.submitted.id}
                 range={this.state.submitted.range}
                 render={this.state.render}
@@ -255,30 +330,101 @@
       }
     }
 
-    const App = () => {
-      const CLIENT_ID = '377437361891-v0ib2hve7mupdcpsibtuqr35o2h61op9.apps.googleusercontent.com';
-      const API_KEY = 'AIzaSyCmxlWlcNnx6oWgMrSLAkYzOEa3efiMDtY';
+    const SheetsDemo = (props) => (
+      <GoogleAPI
+        clientId={props.clientId}
+        apiKey={props.apiKey}
+        scopes={["https://www.googleapis.com/auth/spreadsheets.readonly"]}
+        discoveryDocs={["https://sheets.googleapis.com/$discovery/rest?version=v4"]}
+      >
+        {({ authorize, loading: apiLoading, signout, signedIn, error }) => (
+          <div>
+            {(apiLoading || error) && <button onClick={props.reset}>Reset developer credentials</button>}
+            {apiLoading
+              ? <div>Loading...</div>
+              : error
+                ? <Blob data={error} />
+                : signedIn
+                  ? <button onClick={signout}>Sign Out</button>
+                  : <button onClick={authorize}>Authorize</button>
+            }
+            {signedIn && <DynamicSpreadsheet />}
+          </div>
+        )}
+      </GoogleAPI>
+    )
 
-      // Array of API discovery doc URLs for APIs used by the quickstart
-      const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
-
-      // Authorization scopes required by the API
-      const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
-
-      return (
-        <GoogleAPI clientId={CLIENT_ID} apiKey={API_KEY} scopes={[SCOPES]} discoveryDocs={DISCOVERY_DOCS}>
-          {({ authorize, loading: apiLoading, signout, signedIn }) => (
-            <div>
-              <p>Google Sheets API Quickstart</p>
-              {apiLoading && "Loading..."}
-              {!apiLoading && !signedIn && <button onClick={authorize}>Authorize</button>}
-              {signedIn && <button onClick={signout}>Sign Out</button>}
-              {signedIn && <DynamicSpreadsheet />}
-            </div>
-          )}
-        </GoogleAPI>
-      )
+    SheetsDemo.propTypes = {
+      clientId: PropTypes.string.isRequired,
+      apiKey: PropTypes.string.isRequired,
+      reset: PropTypes.func.isRequired
     }
+
+    class ApiForm extends React.Component {
+      static propTypes = {
+        onSubmit: PropTypes.func.isRequired
+      }
+
+      state = {
+        apiKey: '',
+        clientId: ''
+      }
+
+      handleSubmit = event => {
+        event.preventDefault()
+        this.props.onSubmit(this.state)
+      }
+
+      handleChange = (key, value) => this.setState({ [key]: value })
+
+      render() {
+        return (
+          <form onSubmit={this.handleSubmit}>
+            <Field
+              name="apiKey"
+              label="Google Developer API Key"
+              value={this.state.apiKey}
+              onChange={this.handleChange}
+            />
+            <Field
+              name="clientId"
+              label="Application Client ID"
+              value={this.state.clientId}
+              onChange={this.handleChange}
+            />
+            <input type="submit" value="Submit" />
+          </form>
+        )
+      }
+    }
+
+    class App extends React.Component {
+      state = {
+        apiKey: '',
+        clientId: ''
+      }
+
+      handleSubmit = state => this.setState(state)
+
+      reset = () => this.setState({ apiKey: '', clientId: '' })
+
+      render() {
+        return (
+          <div>
+            <h1>Google Sheets API React Component</h1>
+            {this.state.apiKey
+              ? <SheetsDemo
+                  apiKey={this.state.apiKey}
+                  clientId={this.state.clientId}
+                  reset={this.reset}
+                />
+              : <ApiForm onSubmit={this.handleSubmit} />
+            }
+          </div>
+        )
+      }
+    }
+
 
     ReactDOM.render(
       <App/>,
