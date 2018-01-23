@@ -40,6 +40,14 @@
       })
     }
 
+    function equalByKeys(objA, objB, ...keys) {
+      for (const key of keys) {
+        if (objA[key] !== objB[key])
+          return false
+      }
+      return true
+    }
+
     const { createContext } = ReactBroadcast
 
     const { Provider: GoogleApiProvider, Consumer: GoogleApiConsumer } = createContext(null);
@@ -140,7 +148,7 @@
       }
 
       componentDidUpdate(prevProps, prevState) {
-        if (prevProps.id !== this.props.id || prevProps.range !== this.props.range) {
+        if (!equalByKeys(this.props, prevProps, 'id', 'range')) {
           this.fetch()
         }
       }
@@ -155,7 +163,7 @@
           const response = await this.props.api.client.sheets.spreadsheets.values.get(params)
           // Unable to cancel requests, so we wait until it's done and check it's still the desired one
           if (this.props.id == params.spreadsheetId && this.props.range == params.range) {
-            this.setState({ loading: false, data: response.result.values  })
+            this.setState({ loading: false, error: null, data: response.result.values  })
           }
         } catch (response) {
           this.setState({ loading: false, error: response.result.error })
@@ -216,10 +224,10 @@
         {({ error, data, loading }) => (
           loading
             ? "Getting data..."
-            : data
-              ? <MyData data={data} render={props.render}/>
-              : error
-                ? JSON.stringify(error.message, null, 2)
+            : error
+              ? JSON.stringify(error, null, 2)
+              : data
+                ? <MyData data={data} render={props.render}/>
                 : null
         )}
       </GSheet>
