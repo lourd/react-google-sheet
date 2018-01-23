@@ -243,7 +243,7 @@ class Select extends React.Component {
     const label = this.props.label || this.props.name
     return (
       <div>
-        <label htmlFor={this.props.name}><small>{label}</small></label>
+        <label htmlFor={this.props.name}>{label}</label>
         <div>
           <select id={this.props.name} value={this.props.value} onChange={this.handleChange}>
             {this.props.options.map(str =>
