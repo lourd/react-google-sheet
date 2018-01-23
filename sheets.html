@@ -8,6 +8,7 @@
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
   <script src="https://unpkg.com/react-broadcast@0.7.0-rc.2/umd/react-broadcast.min.js"></script>
+  <script src="https://unpkg.com/lodash@4.17.4/lodash.min.js"></script>
 </head>
 
 <body>
@@ -24,26 +25,40 @@
       })
     }
 
-    const { createContext } = ReactBroadcast
+    function assert(condition, msg = `Invariant ${condition} not met`) {
+      if (!condition) {
+        throw new Error(msg)
+      }
+    }
 
-    const { Provider: GoogleAPIProvider, Consumer: GoogleApiConsumer } = createContext(null);
+    const { createContext } = ReactBroadcast
+    const { memoize, zipObject } = _
+
+    const { Provider: GoogleApiProvider, Consumer: GoogleApiConsumer } = createContext(null);
+    GoogleApiProvider.displayName = 'GoogleApiProvider'
+    GoogleApiConsumer.displayName = 'GoogleApiConsumer'
 
     class GoogleAPI extends React.Component {
       state = {
         signedIn: false,
         client: null,
-        loading: true
+        loading: true,
+        authorize: this.authorize,
+        signout: this.signout
       }
 
       componentDidMount() {
         this.setupApi()
       }
 
+      // TODO cancellation?
       async setupApi() {
         if (typeof window.gapi === 'undefined') {
+          // TODO better error message if this fails
           await loadScript('https://apis.google.com/js/api.js')
         }
         if (!gapi.client) {
+          // TODO check if this callback can have an error and handle better
           await new Promise(resolve => gapi.load('client:auth2', resolve));
         }
         await gapi.client.init({
@@ -76,42 +91,37 @@
 
       render() {
         return (
-          <GoogleAPIProvider value={this.state.client}>
-          {
-            this.props.children({
-              client: this.state.client,
-              signedIn: this.state.signedIn,
-              authorize: this.authorize,
-              signout: this.signout,
-              loading: this.state.loading
-            })
-          }
-          </GoogleAPIProvider>
+          <GoogleApiProvider value={this.state}>
+            {this.props.children(this.state)}
+          </GoogleApiProvider>
         );
       }
 
     }
 
-    class GoogleSheet extends React.Component {
+    class GSheetData extends React.Component {
       state = {
         error: null,
-        values: null,
+        data: null,
         loading: false
       }
 
       componentDidMount() {
-        this.load()
+        this.fetch()
       }
 
-      load = async () => {
+      fetch = async () => {
         this.setState({ loading: true })
-        // TODO get from context
+        assert(
+          this.props.api,
+          `Google API client should be setup & authenticated with GoogleApiProvider before it's used in ${this.constructor.name}`
+        )
         try {
-          const response = await this.props.client.sheets.spreadsheets.values.get({
+          const response = await this.props.api.client.sheets.spreadsheets.values.get({
             spreadsheetId: this.props.id,
             range: this.props.range
           })
-          this.setState({ loading: false, values: response.result.values  })
+          this.setState({ loading: false, data: response.result.values  })
         } catch (response) {
           this.setState({ loading: false, error: response.result.error })
         }
@@ -120,11 +130,73 @@
       render() {
         return this.props.children({
           error: this.state.error,
-          values: this.state.values,
+          data: this.state.data,
           loading: this.state.loading,
-          load: this.load,
+          refetch: this.fetch
          })
       }
+    }
+
+    const GSheet = props => (
+      <GoogleApiConsumer>
+        {api => <GSheetData api={api} {...props} />}
+      </GoogleApiConsumer>
+    )
+
+    let objectify = data => {
+      let labels = data[0]
+      labels[0] = 'number'
+      return data.slice(1).map(row => zipObject(labels, row))
+    }
+
+    memoize.Cache = WeakMap
+    objectify = memoize(objectify)
+
+    const Blob = ({ data }) =>
+      <pre>
+        {JSON.stringify(data, null, 2)}
+      </pre>
+
+    const Table = ({ data }) =>
+      <table>
+        <thead>
+          <tr>
+            {data[0].map(label => <th>{label}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {data.slice(1).map(row =>
+            <tr>
+              {row.map(cell => <td>{cell}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+    const choices = {
+      table: Table,
+      card: Blob,
+    }
+
+    const MyData = ({ data, render }) => {
+      const Comp = choices[render]
+      return <Comp data={data} />
+    }
+
+    const MySpreadsheet = () => {
+      const spreadsheetId = '1_rkdEgDc8ZktKB7ZLIT1H8-xKSneKWNuHqF0On9Ng-E'
+      const range = 'Crayfish!2:12'
+      return (
+        <GSheet id={spreadsheetId} range={range}>
+          {({ error, data, loading, refetch }) => (
+            data
+              ? <MyData data={data} render="table"/>
+              : error
+                ? JSON.stringify(error.message, null, 2)
+                : null
+          )}
+        </GSheet>
+      );
     }
 
     const App = () => {
@@ -134,32 +206,18 @@
       // Array of API discovery doc URLs for APIs used by the quickstart
       const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 
-      // Authorization scopes required by the API; multiple scopes can be
-      // included, separated by spaces.
+      // Authorization scopes required by the API
       const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
-      const spreadsheetId = '1_rkdEgDc8ZktKB7ZLIT1H8-xKSneKWNuHqF0On9Ng-E'
-      const range = 'Crayfish!2:12'
 
       return (
         <GoogleAPI clientId={CLIENT_ID} apiKey={API_KEY} scopes={[SCOPES]} discoveryDocs={DISCOVERY_DOCS}>
           {({ authorize, loading: apiLoading, signout, signedIn }) => (
             <div>
               <p>Google Sheets API Quickstart</p>
+              {apiLoading && "Loading..."}
               {!apiLoading && !signedIn && <button onClick={authorize}>Authorize</button>}
               {signedIn && <button onClick={signout}>Sign Out</button>}
-              <GoogleApiConsumer>
-                {client => (
-                  signedIn &&
-                    <GoogleSheet client={client} id={spreadsheetId} range={range}>
-                      {({ error, values, loading, fetch }) => (
-                        <pre>
-                          {values && JSON.stringify(values, null, 2)}
-                          {error && JSON.stringify(error.message, null, 2)}
-                        </pre>
-                      )}
-                    </GoogleSheet>
-                )}
-              </GoogleApiConsumer>
+              {signedIn && <MySpreadsheet />}
             </div>
           )}
         </GoogleAPI>
