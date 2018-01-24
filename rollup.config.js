@@ -4,18 +4,19 @@ const replace = require('rollup-plugin-replace')
 const resolve = require('rollup-plugin-node-resolve')
 const uglify = require('rollup-plugin-uglify')
 
-const getPlugins = env => {
-  const plugins = [resolve()]
+const env = process.env.BUILD_ENV
 
-  if (env) {
-    plugins.push(
-      replace({
-        'process.env.NODE_ENV': JSON.stringify(env),
-      }),
-    )
-  }
-
-  plugins.push(
+const config = {
+  input: 'modules/index.js',
+  output: {
+    name: 'ReactGoogleSheet',
+    globals: {
+      react: 'React',
+    },
+  },
+  external: ['react'],
+  plugins: [
+    resolve(),
     babel({
       exclude: 'node_modules/**',
       babelrc: false,
@@ -26,27 +27,17 @@ const getPlugins = env => {
           : [],
       ),
     }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(env),
+    }),
     commonjs({
       include: /node_modules/,
     }),
-  )
-
-  if (env === 'production') {
-    plugins.push(uglify())
-  }
-
-  return plugins
+  ],
 }
 
-const config = {
-  input: 'modules/index.js',
-  output: {
-    globals: {
-      react: 'React',
-    },
-  },
-  external: ['react'],
-  plugins: getPlugins(process.env.BUILD_ENV),
+if (env === 'production') {
+  config.plugins.push(uglify())
 }
 
 module.exports = config

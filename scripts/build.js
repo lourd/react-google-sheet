@@ -2,7 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const execSync = require('child_process').execSync
 const prettyBytes = require('pretty-bytes')
-const pascalCase = require('pascal-case')
 const gzipSize = require('gzip-size')
 
 process.chdir(path.resolve(__dirname, '..'))
@@ -17,30 +16,21 @@ const packageName = require('../package').name
 
 console.log('\nBuilding ES modules...')
 
-exec(`rollup -c scripts/config.js -f es -o esm/${packageName}.js`)
+exec(`rollup -c -f es -o esm/${packageName}.js`)
 
 console.log('\nBuilding CommonJS modules...')
 
-exec(`rollup -c scripts/config.js -f cjs -o cjs/${packageName}.js`)
+exec(`rollup -c -f cjs -o cjs/${packageName}.js`)
 
 console.log('\nBuilding UMD modules...')
 
-const [scope, name] = packageName.split('/')
-const varName = pascalCase(name || scope)
+exec(`rollup -c -f umd -o umd/${packageName}.js`, {
+  BUILD_ENV: 'development',
+})
 
-exec(
-  `rollup -c scripts/config.js -f umd -n ${varName} -o umd/${packageName}.js`,
-  {
-    BUILD_ENV: 'development',
-  },
-)
-
-exec(
-  `rollup -c scripts/config.js -f umd -n ${varName} -o umd/${packageName}.min.js`,
-  {
-    BUILD_ENV: 'production',
-  },
-)
+exec(`rollup -c -f umd -o umd/${packageName}.min.js`, {
+  BUILD_ENV: 'production',
+})
 
 console.log(
   '\nThe minified, gzipped UMD build is %s',
