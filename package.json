@@ -1,0 +1,28 @@
+{
+  "name": "@lourd/react-google-sheets",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "gatsby build",
+    "start": "gatsby develop"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lourd/react-google-sheets.git"
+  },
+  "keywords": [],
+  "author": "Louis DeScioli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lourd/react-google-sheets/issues"
+  },
+  "homepage": "https://github.com/lourd/react-google-sheets#readme",
+  "dependencies": {
+    "gatsby": "^1.9.166",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-broadcast": "^0.7.0-rc.2",
+    "react-dom": "^16.2.0",
+    "react-helmet": "^5.2.0"
+  }
+}
