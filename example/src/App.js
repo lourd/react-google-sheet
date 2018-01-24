@@ -1,18 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'react-helmet'
-import { GoogleApi } from '../../modules'
+import { GoogleSheetsApi } from '../../modules'
 import DynamicSpreadsheet from './DynamicSpreadsheet'
 import ApiForm from './ApiForm'
 import Blob from './Blob'
 
 const SheetsDemo = props => (
-  <GoogleApi
-    clientId={props.clientId}
-    apiKey={props.apiKey}
-    scopes={['https://www.googleapis.com/auth/spreadsheets.readonly']}
-    discoveryDocs={['https://sheets.googleapis.com/$discovery/rest?version=v4']}
-  >
+  <GoogleSheetsApi clientId={props.clientId} apiKey={props.apiKey}>
     {({ authorize, loading: apiLoading, signout, signedIn, error }) => (
       <div>
         {(apiLoading || error) && (
@@ -30,7 +25,7 @@ const SheetsDemo = props => (
         {signedIn && <DynamicSpreadsheet />}
       </div>
     )}
-  </GoogleApi>
+  </GoogleSheetsApi>
 )
 
 SheetsDemo.propTypes = {

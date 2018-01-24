@@ -90,5 +90,13 @@ class GoogleApi extends React.Component {
   }
 }
 
+const GoogleSheetsApi = props => (
+  <GoogleApi
+    scopes={['https://www.googleapis.com/auth/spreadsheets.readonly']}
+    discoveryDocs={['https://sheets.googleapis.com/$discovery/rest?version=v4']}
+    {...props}
+  />
+)
+
 export default GoogleApi
-export { GoogleApiConsumer }
+export { GoogleApiConsumer, GoogleSheetsApi }
