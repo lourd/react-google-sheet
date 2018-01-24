@@ -29,8 +29,7 @@ const SheetsDemo = props => (
         )}
         {signedIn && <DynamicSpreadsheet />}
       </div>
-      )
-    }}
+    )}
   </GoogleApi>
 )
 
