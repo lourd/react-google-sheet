@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { GoogleApiConsumer } from './GoogleApi';
+import equalByKeys from './equalByKeys';
 
 class GSheetData extends React.Component {
   static propTypes = {
