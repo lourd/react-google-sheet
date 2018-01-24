@@ -2,3 +2,6 @@ node_modules
 *.log
 public
 .cache
+cjs
+esm
+umd

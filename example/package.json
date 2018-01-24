@@ -1,0 +1,21 @@
+{
+  "name": "react-google-sheet-example",
+  "version": "1.0.3",
+  "private": true,
+  "author": "Louis DeScioli",
+  "homepage": "https://lourd.github.io/react-google-sheet",
+  "scripts": {
+    "build": "gatsby build",
+    "build:gh": "gatsby build --prefix-paths",
+    "start": "gatsby develop",
+    "deploy": "rm -rf public && yarn run build:gh && gh-pages -d public"
+  },
+  "dependencies": {
+    "gatsby": "^1.9.166",
+    "gh-pages": "^1.1.0",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-helmet": "^5.2.0"
+  }
+}

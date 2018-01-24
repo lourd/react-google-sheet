@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'react-helmet'
-import GoogleApi from './GoogleApi'
+import { GoogleApi } from '../../modules'
 import DynamicSpreadsheet from './DynamicSpreadsheet'
 import ApiForm from './ApiForm'
 import Blob from './Blob'

@@ -16,8 +16,8 @@ There are a few steps to using the app
 
 ### [GoogleApi](./src/GoogleApi.js)
 
-This component handles downloading and instantiating the Google API browser SDK, and passing it into context for other components to use. See an example of this component used in [App.js](./src/App.js#L9-L32)
+This component handles downloading and instantiating the Google API browser SDK, and passing it into context for other components to use. See an example of this component used in [App.js](./example/App.js#L9-L32)
 
 ### [GoogleSheet](./src/GoogleSheet.js/)
 
-Ths component handles getting the Google client from context and using to to request the data from the Sheets API. See an example of this component used in [DynamicSpreadsheet.js](./src/DynamicSpreadsheet.js#L21-L33)
+Ths component handles getting the Google client from context and using to to request the data from the Sheets API. See an example of this component used in [DynamicSpreadsheet.js](./example/DynamicSpreadsheet.js#L21-L33)

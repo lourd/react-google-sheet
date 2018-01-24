@@ -1,20 +1,20 @@
-import React from 'react';
+import React from 'react'
 
-import Blob from './Blob';
-import Field from './Field';
-import GoogleSheet from './GoogleSheet';
-import Select from './Select';
-import Table from './Table';
+import Blob from './Blob'
+import Field from './Field'
+import { GoogleSheet } from '../../modules'
+import Select from './Select'
+import Table from './Table'
 
 const RenderChoices = {
   table: Table,
-  blob: Blob
-};
+  blob: Blob,
+}
 
 const MyData = ({ data, render }) => {
-  const Comp = RenderChoices[render];
-  return <Comp data={data} />;
-};
+  const Comp = RenderChoices[render]
+  return <Comp data={data} />
+}
 
 // Wraps the GoogleSheet component to provide some basic components
 // for display loading & error states
@@ -30,27 +30,27 @@ const SimpleGSheet = props => (
       ) : null
     }
   </GoogleSheet>
-);
+)
 
 class DynamicSpreadsheet extends React.Component {
   state = {
     id: '',
     range: '',
     render: 'table',
-    submitted: null
-  };
+    submitted: null,
+  }
 
   handleSubmit = event => {
-    event.preventDefault();
+    event.preventDefault()
     this.setState({
       submitted: {
         id: this.state.id,
-        range: this.state.range
-      }
-    });
-  };
+        range: this.state.range,
+      },
+    })
+  }
 
-  handleChange = (key, value) => this.setState({ [key]: value });
+  handleChange = (key, value) => this.setState({ [key]: value })
 
   render() {
     return (
@@ -85,8 +85,8 @@ class DynamicSpreadsheet extends React.Component {
           />
         )}
       </div>
-    );
+    )
   }
 }
 
-export default DynamicSpreadsheet;
+export default DynamicSpreadsheet
