@@ -1,6 +1,8 @@
 import React from 'react';
 import './style.css';
 
+// Forked from https://github.com/tholman/github-corners
+
 const Octokitty = props => (
   <a
     href={`https://github.com/${props.repo}`}
