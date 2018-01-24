@@ -1,11 +1,11 @@
 webpackJsonp([35783957827783],{
 
-/***/ 180:
+/***/ 182:
 /***/ (function(module, exports, __webpack_require__) {
 
 	var pSlice = Array.prototype.slice;
-	var objectKeys = __webpack_require__(182);
-	var isArguments = __webpack_require__(181);
+	var objectKeys = __webpack_require__(184);
+	var isArguments = __webpack_require__(183);
 	
 	var deepEqual = module.exports = function (actual, expected, opts) {
 	  if (!opts) opts = {};
@@ -101,7 +101,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 181:
+/***/ 183:
 /***/ (function(module, exports) {
 
 	var supportsArgumentsClass = (function(){
@@ -128,7 +128,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 182:
+/***/ 184:
 /***/ (function(module, exports) {
 
 	exports = module.exports = typeof Object.keys === 'function'
@@ -144,7 +144,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 189:
+/***/ 191:
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -288,7 +288,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 232:
+/***/ 234:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1771,7 +1771,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 102:
+/***/ 103:
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -1789,17 +1789,17 @@ webpackJsonp([35783957827783],{
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
-	var _reactSideEffect = __webpack_require__(236);
+	var _reactSideEffect = __webpack_require__(238);
 	
 	var _reactSideEffect2 = _interopRequireDefault(_reactSideEffect);
 	
-	var _deepEqual = __webpack_require__(180);
+	var _deepEqual = __webpack_require__(182);
 	
 	var _deepEqual2 = _interopRequireDefault(_deepEqual);
 	
-	var _HelmetUtils = __webpack_require__(235);
+	var _HelmetUtils = __webpack_require__(237);
 	
-	var _HelmetConstants = __webpack_require__(103);
+	var _HelmetConstants = __webpack_require__(104);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -2069,7 +2069,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 103:
+/***/ 104:
 /***/ (function(module, exports) {
 
 	exports.__esModule = true;
@@ -2139,7 +2139,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 235:
+/***/ 237:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {exports.__esModule = true;
@@ -2157,7 +2157,7 @@ webpackJsonp([35783957827783],{
 	
 	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 	
-	var _HelmetConstants = __webpack_require__(103);
+	var _HelmetConstants = __webpack_require__(104);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -2682,7 +2682,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 236:
+/***/ 238:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2691,11 +2691,11 @@ webpackJsonp([35783957827783],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _exenv = __webpack_require__(189);
+	var _exenv = __webpack_require__(191);
 	
 	var _exenv2 = _interopRequireDefault(_exenv);
 	
-	var _shallowequal = __webpack_require__(240);
+	var _shallowequal = __webpack_require__(242);
 	
 	var _shallowequal2 = _interopRequireDefault(_shallowequal);
 	
@@ -2806,7 +2806,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 240:
+/***/ 242:
 /***/ (function(module, exports) {
 
 	module.exports = function shallowEqual(objA, objB, compare, compareContext) {
@@ -2863,7 +2863,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 110:
+/***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2878,7 +2878,7 @@ webpackJsonp([35783957827783],{
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
-	var _Field = __webpack_require__(62);
+	var _Field = __webpack_require__(63);
 	
 	var _Field2 = _interopRequireDefault(_Field);
 	
@@ -2946,7 +2946,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 111:
+/***/ 112:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2961,11 +2961,11 @@ webpackJsonp([35783957827783],{
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
-	var _reactHelmet = __webpack_require__(102);
+	var _reactHelmet = __webpack_require__(103);
 	
 	var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
 	
-	var _GoogleApi = __webpack_require__(63);
+	var _GoogleApi = __webpack_require__(64);
 	
 	var _GoogleApi2 = _interopRequireDefault(_GoogleApi);
 	
@@ -2973,9 +2973,13 @@ webpackJsonp([35783957827783],{
 	
 	var _DynamicSpreadsheet2 = _interopRequireDefault(_DynamicSpreadsheet);
 	
-	var _ApiForm = __webpack_require__(110);
+	var _ApiForm = __webpack_require__(111);
 	
 	var _ApiForm2 = _interopRequireDefault(_ApiForm);
+	
+	var _Blob = __webpack_require__(62);
+	
+	var _Blob2 = _interopRequireDefault(_Blob);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -3012,7 +3016,7 @@ webpackJsonp([35783957827783],{
 	          'div',
 	          null,
 	          'Loading...'
-	        ) : error ? _react2.default.createElement(Blob, { data: error }) : signedIn ? _react2.default.createElement(
+	        ) : error ? _react2.default.createElement(_Blob2.default, { data: error }) : signedIn ? _react2.default.createElement(
 	          'button',
 	          { onClick: signout },
 	          'Sign Out'
@@ -3089,7 +3093,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 112:
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3127,11 +3131,11 @@ webpackJsonp([35783957827783],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Blob = __webpack_require__(112);
+	var _Blob = __webpack_require__(62);
 	
 	var _Blob2 = _interopRequireDefault(_Blob);
 	
-	var _Field = __webpack_require__(62);
+	var _Field = __webpack_require__(63);
 	
 	var _Field2 = _interopRequireDefault(_Field);
 	
@@ -3259,7 +3263,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 62:
+/***/ 63:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3335,7 +3339,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 63:
+/***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3351,7 +3355,11 @@ webpackJsonp([35783957827783],{
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
-	var _reactBroadcast = __webpack_require__(232);
+	var _reactBroadcast = __webpack_require__(234);
+	
+	var _loadScript = __webpack_require__(119);
+	
+	var _loadScript2 = _interopRequireDefault(_loadScript);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -3410,7 +3418,7 @@ webpackJsonp([35783957827783],{
 	
 	      try {
 	        if (typeof window.gapi === 'undefined') {
-	          yield loadScript('https://apis.google.com/js/api.js');
+	          yield (0, _loadScript2.default)('https://apis.google.com/js/api.js');
 	        }
 	        if (!gapi.client) {
 	          yield new Promise(function (resolve, reject) {
@@ -3426,22 +3434,22 @@ webpackJsonp([35783957827783],{
 	          discoveryDocs: this.props.discoveryDocs,
 	          scope: this.props.scopes.join(',')
 	        });
-	        this.auth = gapi.auth2.getAuthInstance();
-	        this.setState({
-	          client: gapi.client,
-	          loading: false,
-	          signedIn: this.auth.isSignedIn.get()
-	        });
-	        // Listen for sign-in state changes.
-	        this.auth.isSignedIn.listen(function (signedIn) {
-	          return _this2.setState({ signedIn: signedIn });
-	        });
 	      } catch (error) {
 	        this.setState({
 	          loading: false,
 	          error: error
 	        });
+	        return;
 	      }
+	      this.auth = gapi.auth2.getAuthInstance();
+	      this.setState({
+	        client: gapi.client,
+	        loading: false,
+	        signedIn: this.auth.isSignedIn.get()
+	      });
+	      this.auth.isSignedIn.listen(function (signedIn) {
+	        return _this2.setState({ signedIn: signedIn });
+	      });
 	    });
 	
 	    function setupApi() {
@@ -3455,7 +3463,7 @@ webpackJsonp([35783957827783],{
 	    return _react2.default.createElement(
 	      GoogleApiProvider,
 	      { value: this.state },
-	      this.props.children(this.state)
+	      typeof this.props.children === 'function' ? this.props.children(this.state) : this.props.children
 	    );
 	  };
 	
@@ -3466,7 +3474,8 @@ webpackJsonp([35783957827783],{
 	  clientId: _propTypes2.default.string.isRequired,
 	  apiKey: _propTypes2.default.string.isRequired,
 	  discoveryDocs: _propTypes2.default.arrayOf(_propTypes2.default.string).isRequired,
-	  scopes: _propTypes2.default.arrayOf(_propTypes2.default.string).isRequired
+	  scopes: _propTypes2.default.arrayOf(_propTypes2.default.string).isRequired,
+	  children: _propTypes2.default.oneOfType([_propTypes2.default.func, _propTypes2.default.node]).isRequired
 	};
 	exports.default = GoogleApi;
 	exports.GoogleApiConsumer = GoogleApiConsumer;
@@ -3490,7 +3499,11 @@ webpackJsonp([35783957827783],{
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
-	var _GoogleApi = __webpack_require__(63);
+	var _GoogleApi = __webpack_require__(64);
+	
+	var _equalByKeys = __webpack_require__(118);
+	
+	var _equalByKeys2 = _interopRequireDefault(_equalByKeys);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -3545,7 +3558,7 @@ webpackJsonp([35783957827783],{
 	  };
 	
 	  GSheetData.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
-	    if (!equalByKeys(this.props, prevProps, 'id', 'range')) {
+	    if (!(0, _equalByKeys2.default)(this.props, prevProps, 'id', 'range')) {
 	      this.fetch();
 	    }
 	  };
@@ -3595,16 +3608,18 @@ webpackJsonp([35783957827783],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	__webpack_require__(190);
+	__webpack_require__(192);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// Forked from https://github.com/tholman/github-corners
 	
 	var Octokitty = function Octokitty(props) {
 	  return _react2.default.createElement(
 	    'a',
 	    {
 	      href: 'https://github.com/' + props.repo,
-	      'class': 'github-corner',
+	      className: 'github-corner',
 	      'aria-label': 'View source on Github'
 	    },
 	    _react2.default.createElement(
@@ -3614,12 +3629,12 @@ webpackJsonp([35783957827783],{
 	      _react2.default.createElement('path', {
 	        d: 'M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2',
 	        fill: 'currentColor',
-	        'class': 'octo-arm'
+	        className: 'octo-arm'
 	      }),
 	      _react2.default.createElement('path', {
 	        d: 'M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z',
 	        fill: 'currentColor',
-	        'class': 'octo-body'
+	        className: 'octo-body'
 	      })
 	    )
 	  );
@@ -3630,7 +3645,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 190:
+/***/ 192:
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
@@ -3782,6 +3797,61 @@ webpackJsonp([35783957827783],{
 /***/ }),
 
 /***/ 118:
+/***/ (function(module, exports) {
+
+	"use strict";
+	
+	exports.__esModule = true;
+	exports.default = equalByKeys;
+	function equalByKeys(objA, objB) {
+	  for (var _len = arguments.length, keys = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+	    keys[_key - 2] = arguments[_key];
+	  }
+	
+	  for (var _iterator = keys, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+	    var _ref;
+	
+	    if (_isArray) {
+	      if (_i >= _iterator.length) break;
+	      _ref = _iterator[_i++];
+	    } else {
+	      _i = _iterator.next();
+	      if (_i.done) break;
+	      _ref = _i.value;
+	    }
+	
+	    var key = _ref;
+	
+	    if (objA[key] !== objB[key]) return false;
+	  }
+	  return true;
+	}
+	module.exports = exports["default"];
+
+/***/ }),
+
+/***/ 119:
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.default = loadScript;
+	function loadScript(url) {
+	  return new Promise(function (resolve, reject) {
+	    var script = document.createElement('script');
+	    script.onload = resolve;
+	    script.onerror = reject;
+	    script.async = true;
+	    script.src = url;
+	    document.head.appendChild(script);
+	  });
+	}
+	module.exports = exports['default'];
+
+/***/ }),
+
+/***/ 120:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3796,7 +3866,7 @@ webpackJsonp([35783957827783],{
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
-	var _reactHelmet = __webpack_require__(102);
+	var _reactHelmet = __webpack_require__(103);
 	
 	var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
 	
@@ -3804,11 +3874,11 @@ webpackJsonp([35783957827783],{
 	
 	var _Octokitty2 = _interopRequireDefault(_Octokitty);
 	
-	var _App = __webpack_require__(111);
+	var _App = __webpack_require__(112);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	__webpack_require__(191);
+	__webpack_require__(193);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -3825,7 +3895,7 @@ webpackJsonp([35783957827783],{
 
 /***/ }),
 
-/***/ 191:
+/***/ 193:
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
@@ -3833,4 +3903,4 @@ webpackJsonp([35783957827783],{
 /***/ })
 
 });
-//# sourceMappingURL=component---src-pages-index-js-6a9ad6cc674d39f8560f.js.map
+//# sourceMappingURL=component---src-pages-index-js-bac6198ab159781587ed.js.map
