@@ -1,7 +1,7 @@
 {
   "name": "@lourd/react-google-sheet",
   "version": "0.1.0",
-  "description": "Google Sheets Data Through ",
+  "description": "Google sheets data through React components",
   "repository": "lourd/react-google-sheet",
   "homepage": "https://github.com/lourd/react-google-sheet",
   "author": "Louis DeScioli",
@@ -9,11 +9,7 @@
   "main": "cjs/@lourd/react-google-sheet.js",
   "module": "esm/@lourd/react-google-sheet.js",
   "unpkg": "umd/@lourd/react-google-sheet.js",
-  "files": [
-    "cjs",
-    "esm",
-    "umd"
-  ],
+  "files": ["cjs", "esm", "umd"],
   "scripts": {
     "build": "node ./scripts/build.js",
     "release": "node ./scripts/release.js"
@@ -32,7 +28,6 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.2.11",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-minify": "^0.2.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
     "eslint": "^3.3.1",
