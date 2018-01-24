@@ -2,7 +2,7 @@
 
 This is a [small experimental app](https://lourd.github.io/react-google-sheets) exploring how to easily pull data from Google Sheets using React to componentize the [Google Sheets browser API](https://developers.google.com/sheets/api/quickstart/js).
 
-This project utilizes the [proposed context API](https://github.com/acdlite/rfcs/blob/new-version-of-context/text/0000-new-version-of-context.md) through the implementation in the [`react-broadcast` beta](https://github.com/ReactTraining/react-broadcast/pull/47). See its usage in `GoogleApi` and `GoogleSheet`, described below.
+This project utilizes the [render prop React pattern](https://reactjs.org/docs/render-props.html) and context. It uses the [new proposed context API](https://github.com/acdlite/rfcs/blob/new-version-of-context/text/0000-new-version-of-context.md) through the implementation in the [`react-broadcast` beta](https://github.com/ReactTraining/react-broadcast/pull/47). See its usage in `GoogleApi` and `GoogleSheet`, described below.
 
 ## Setup
 
