@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Head from 'react-helmet';
-import GoogleApi from './GoogleApi';
-import DynamicSpreadsheet from './DynamicSpreadsheet';
-import ApiForm from './ApiForm';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Head from 'react-helmet'
+import GoogleApi from './GoogleApi'
+import DynamicSpreadsheet from './DynamicSpreadsheet'
+import ApiForm from './ApiForm'
+import Blob from './Blob'
 
 const SheetsDemo = props => (
   <GoogleApi
@@ -28,25 +29,26 @@ const SheetsDemo = props => (
         )}
         {signedIn && <DynamicSpreadsheet />}
       </div>
-    )}
+      )
+    }}
   </GoogleApi>
-);
+)
 
 SheetsDemo.propTypes = {
   clientId: PropTypes.string.isRequired,
   apiKey: PropTypes.string.isRequired,
-  reset: PropTypes.func.isRequired
-};
+  reset: PropTypes.func.isRequired,
+}
 
 class App extends React.Component {
   state = {
     apiKey: '',
-    clientId: ''
-  };
+    clientId: '',
+  }
 
-  handleSubmit = state => this.setState(state);
+  handleSubmit = state => this.setState(state)
 
-  reset = () => this.setState({ apiKey: '', clientId: '' });
+  reset = () => this.setState({ apiKey: '', clientId: '' })
 
   render() {
     return (
@@ -65,8 +67,8 @@ class App extends React.Component {
           <ApiForm onSubmit={this.handleSubmit} />
         )}
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
