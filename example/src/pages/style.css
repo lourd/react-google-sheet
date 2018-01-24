@@ -9,6 +9,7 @@ label {
   font-size: 0.8em;
 }
 
-input {
+input,
+button {
   margin-bottom: 5px;
 }

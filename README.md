@@ -53,8 +53,10 @@ This project utilizes the [render prop React pattern](https://reactjs.org/docs/r
 
 ## Example
 
-There are a few steps to using the [example app][site]
+There are just a couple steps to using the [example app][site]
 
-* Get an API key and application ID from the [Google APIs console](https://console.developers.google.com/apis/credentials)
+* Click the `Authorize` button and allow the site to have access to your Google Sheets data
 * Get the ID of a spreadsheet that you have permission to view. In the URL of a sheet it's in between `/d/` and `/edit`, i.e. for `/spreadsheets/d/foofoo/edit` it's **foofoo**.
 * Choose a range of the spreadsheet, e.g. `Tab 1!2:12`
+
+You can also use your own API key and application ID that you made on the [Google APIs console](https://console.developers.google.com/apis/credentials).

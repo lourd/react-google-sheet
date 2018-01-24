@@ -10,9 +10,6 @@ const SheetsDemo = props => (
   <GoogleSheetsApi clientId={props.clientId} apiKey={props.apiKey}>
     {({ authorize, loading: apiLoading, signout, signedIn, error }) => (
       <div>
-        {(apiLoading || error) && (
-          <button onClick={props.reset}>Reset developer credentials</button>
-        )}
         {apiLoading ? (
           <div>Loading...</div>
         ) : error ? (
@@ -36,8 +33,9 @@ SheetsDemo.propTypes = {
 
 class App extends React.Component {
   state = {
-    apiKey: '',
-    clientId: '',
+    apiKey: 'AIzaSyDS0rsId2YdsGWAgU4xiLm8zS8gf4k9d2Y',
+    clientId:
+      '377437361891-v0ib2hve7mupdcpsibtuqr35o2h61op9.apps.googleusercontent.com',
   }
 
   handleSubmit = state => this.setState(state)
@@ -51,6 +49,9 @@ class App extends React.Component {
           <title>Google Sheets React Component Demo</title>
         </Head>
         <h1>Google Sheets API React Component</h1>
+        {this.state.apiKey && (
+          <button onClick={this.reset}>Change developer credentials</button>
+        )}
         {this.state.apiKey ? (
           <SheetsDemo
             apiKey={this.state.apiKey}
@@ -58,7 +59,7 @@ class App extends React.Component {
             reset={this.reset}
           />
         ) : (
-          <ApiForm onSubmit={this.handleSubmit} />
+          <ApiForm onSubmit={this.handleSubmit} init={this.state} />
         )}
       </div>
     )

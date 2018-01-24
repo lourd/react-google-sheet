@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Field from './Field';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Field from './Field'
 
 class ApiForm extends React.Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired
-  };
+    onSubmit: PropTypes.func.isRequired,
+  }
 
   state = {
-    apiKey: '',
-    clientId: ''
-  };
+    apiKey: this.props.init.apiKey,
+    clientId: this.props.init.clientId,
+  }
 
   handleSubmit = event => {
-    event.preventDefault();
-    this.props.onSubmit(this.state);
-  };
+    event.preventDefault()
+    this.props.onSubmit(this.state)
+  }
 
-  handleChange = (key, value) => this.setState({ [key]: value });
+  handleChange = (key, value) => this.setState({ [key]: value })
 
   render() {
     return (
@@ -36,8 +36,8 @@ class ApiForm extends React.Component {
         />
         <input type="submit" value="Submit" />
       </form>
-    );
+    )
   }
 }
 
-export default ApiForm;
+export default ApiForm
