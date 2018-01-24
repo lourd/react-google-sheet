@@ -4,7 +4,7 @@
 [npm]: https://www.npmjs.com/package/@lourd/react-google-sheet
 [site]: https://lourd.github.io/react-google-sheet
 
-This is an small experiment in exploring how to easily pull data from Google Sheets using React components. It consists of a couple JavaScript [modules](./modules) [available on npm][npm] and a [small toy app][site] for [demonstrating its usage](./example). to componentize the [Google Sheets browser API](https://developers.google.com/sheets/api/quickstart/js).
+This is part project exploring how to easily pull data from Google Sheets using React components. It consists of a couple [JavaScript modules](#component-apis) (which are [available on npm][npm]) and a [small example site](#example) for demonstrating its usage. to componentize the [Google Sheets browser API](https://developers.google.com/sheets/api/quickstart/js).
 
 ## Module installation
 
@@ -27,11 +27,11 @@ import {
 
 ### [`<GoogleSheetsApi/>`](./modules/GoogleApi.js)
 
-This component handles downloading and instantiating the Google sheets browser API, and passing it into context for other components to use. See an example of this component used in [App.js](./example/App.js#L9-L32)
+This component handles downloading and instantiating the Google sheets browser API, and passing it into context for other components to use. See an example of this component used in [App.js](./example/src/App.js#L9-L32)
 
 ### [`<GoogleSheet/>`](./modules/GoogleSheet.js/)
 
-Ths component handles getting the Google client from context and using to to request the data from the Sheets API. See an example of this component used in [DynamicSpreadsheet.js](./example/DynamicSpreadsheet.js#L21-L33)
+Ths component handles getting the Google client from context and using to to request the data from the Sheets API. See an example of this component used in [DynamicSpreadsheet.js](./example/src/DynamicSpreadsheet.js#L21-L33)
 
 ---
 
@@ -53,7 +53,7 @@ This project utilizes the [render prop React pattern](https://reactjs.org/docs/r
 
 ## Example
 
-There are just a couple steps to using the [example app][site]
+There are just a couple steps to using the [example app][site]. The source is in the [`example` directory](./example).
 
 * Click the `Authorize` button and allow the site to have access to your Google Sheets data
 * Get the ID of a spreadsheet that you have permission to view. In the URL of a sheet it's in between `/d/` and `/edit`, i.e. for `/spreadsheets/d/foofoo/edit` it's **foofoo**.
