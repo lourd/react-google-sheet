@@ -9,7 +9,7 @@ This project utilizes the [proposed context API](https://github.com/acdlite/rfcs
 There are a few steps to using the app
 
 * Get an API key and application ID from the [Google APIs console](https://console.developers.google.com/apis/credentials)
-* Get the ID of a spreadsheet that you have permission to view. In the URL of a sheet it's in between `/d/` and `/edit`, i.e. for `/spreadsheets/d/foofoo/edit` it's \*_foofoo_.
+* Get the ID of a spreadsheet that you have permission to view. In the URL of a sheet it's in between `/d/` and `/edit`, i.e. for `/spreadsheets/d/foofoo/edit` it's **foofoo**.
 * Choose a range of the spreadsheet, e.g. `Tab 1!2:12`
 
 ## Components
