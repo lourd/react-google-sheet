@@ -4,7 +4,7 @@
 [npm]: https://www.npmjs.com/package/@lourd/react-google-sheet
 [site]: https://lourd.github.io/react-google-sheet
 
-This is part project exploring how to easily pull data from Google Sheets using React components. It consists of a couple [JavaScript modules](#component-apis) (which are [available on npm][npm]) and a [small example site](#example) for demonstrating its usage. to componentize the [Google Sheets browser API](https://developers.google.com/sheets/api/quickstart/js).
+This is part of a project exploring how to easily pull data from Google Sheets using React components. It consists of a couple [JavaScript modules](#component-apis) (which are [available on npm][npm]) and a [small example site](#example) for demonstrating its usage. to componentize the [Google Sheets browser API](https://developers.google.com/sheets/api/quickstart/js).
 
 ## Module installation
 
@@ -25,11 +25,11 @@ import {
 } from '@lourd/react-google-sheet'
 ```
 
-### [`<GoogleSheetsApi/>`](./modules/GoogleApi.js)
+### [`<GoogleSheetsApi />`](./modules/GoogleApi.js)
 
 This component handles downloading and instantiating the Google sheets browser API, and passing it into context for other components to use. See an example of this component used in [App.js](./example/src/App.js#L9-L32)
 
-### [`<GoogleSheet/>`](./modules/GoogleSheet.js/)
+### [`<GoogleSheet />`](./modules/GoogleSheet.js/)
 
 Ths component handles getting the Google client from context and using to to request the data from the Sheets API. See an example of this component used in [DynamicSpreadsheet.js](./example/src/DynamicSpreadsheet.js#L21-L33)
 
@@ -37,11 +37,11 @@ Ths component handles getting the Google client from context and using to to req
 
 > _These components are not necessary for fetching data from the Google Sheets API, but can be used to compose components that interact with the other Google APIs._
 
-### [`<GoogleApiConsumer/>`](./modules/GoogleApi.js)
+### [`<GoogleApiConsumer />`](./modules/GoogleApi.js)
 
 This component gives access to the Google API state passed down by a [`GoogleApi`](#google-api) component. It uses its children prop as a function to pass the arguments along. It's used by [`GoogleSheet`](#google-sheet) under the hood.
 
-### [`<GoogleApi/>`](./modules/GoogleApi.js)
+### [`<GoogleApi />`](./modules/GoogleApi.js)
 
 This component is slightly lower level than [`GoogleSheetsApi`](#googlesheetsapi), needing `discoveryDocs` and `scopes` passed as a prop.
 
@@ -49,7 +49,7 @@ This component is slightly lower level than [`GoogleSheetsApi`](#googlesheetsapi
 
 The main goal behind this project is to simplify using data from Google Sheets. This approach takes a client-centric approach, using React to componentize the [Google Sheets browser API](https://developers.google.com/sheets/api/quickstart/js).
 
-This project utilizes the [render prop React pattern](https://reactjs.org/docs/render-props.html) and context. It uses the [new proposed context API](https://github.com/acdlite/rfcs/blob/new-version-of-context/text/0000-new-version-of-context.md) through the implementation in the [`react-broadcast` beta](https://github.com/ReactTraining/react-broadcast/pull/47). See its usage in `GoogleApi` and `GoogleSheet`, described below.
+This project utilizes the [render prop React pattern](https://reactjs.org/docs/render-props.html) and context. It uses the [new proposed context API](https://github.com/acdlite/rfcs/blob/new-version-of-context/text/0000-new-version-of-context.md) through the implementation in the [`react-broadcast` beta](https://github.com/ReactTraining/react-broadcast/pull/47). See its usage in [`GoogleApi`](#googleapi) and [`GoogleSheet`](#googlesheet).
 
 ## Example
 
