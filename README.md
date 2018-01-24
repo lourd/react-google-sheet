@@ -25,11 +25,11 @@ import {
 } from '@lourd/react-google-sheet'
 ```
 
-### [`<GoogleSheetsApi/>`](./src/GoogleApi.js)
+### [`<GoogleSheetsApi/>`](./modules/GoogleApi.js)
 
 This component handles downloading and instantiating the Google sheets browser API, and passing it into context for other components to use. See an example of this component used in [App.js](./example/App.js#L9-L32)
 
-### [`<GoogleSheet/>`](./src/GoogleSheet.js/)
+### [`<GoogleSheet/>`](./modules/GoogleSheet.js/)
 
 Ths component handles getting the Google client from context and using to to request the data from the Sheets API. See an example of this component used in [DynamicSpreadsheet.js](./example/DynamicSpreadsheet.js#L21-L33)
 
@@ -37,11 +37,11 @@ Ths component handles getting the Google client from context and using to to req
 
 > _These components are not necessary for fetching data from the Google Sheets API, but can be used to compose components that interact with the other Google APIs._
 
-### [`<GoogleApiConsumer/>`](./src/GoogleApi.js)
+### [`<GoogleApiConsumer/>`](./modules/GoogleApi.js)
 
 This component gives access to the Google API state passed down by a [`GoogleApi`](#google-api) component. It uses its children prop as a function to pass the arguments along. It's used by [`GoogleSheet`](#google-sheet) under the hood.
 
-### [`<GoogleApi/>`](./src/GoogleApi.js)
+### [`<GoogleApi/>`](./modules/GoogleApi.js)
 
 This component is slightly lower level than [`GoogleSheetsApi`](#googlesheetsapi), needing `discoveryDocs` and `scopes` passed as a prop.
 
