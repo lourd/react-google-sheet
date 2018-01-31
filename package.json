@@ -1,6 +1,6 @@
 {
   "name": "@lourd/react-google-sheet",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Google sheets data through React components",
   "repository": "lourd/react-google-sheet",
   "homepage": "https://github.com/lourd/react-google-sheet",
@@ -8,7 +8,9 @@
   "license": "MIT",
   "main": "dist/react-google-sheet.js",
   "module": "dist/react-google-sheet.es.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "node ./scripts/build.js",
     "release": "npm run build && node ./scripts/release.js",
@@ -51,7 +53,11 @@
   },
   "keywords": [],
   "jest": {
-    "setupFiles": ["./scripts/testSetup.js"],
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "setupFiles": [
+      "./scripts/testSetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   }
 }
