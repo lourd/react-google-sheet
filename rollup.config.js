@@ -4,7 +4,7 @@ const replace = require('rollup-plugin-replace')
 const resolve = require('rollup-plugin-node-resolve')
 const uglify = require('rollup-plugin-uglify')
 
-const env = process.env.BUILD_ENV
+const { BUILD_ENV } = process.env
 
 const config = {
   input: 'modules/index.js',
@@ -19,16 +19,9 @@ const config = {
     resolve(),
     babel({
       exclude: 'node_modules/**',
-      babelrc: false,
-      presets: [['env', { loose: true, modules: false }], 'stage-2', 'react'],
-      plugins: ['external-helpers'].concat(
-        env === 'production'
-          ? ['dev-expression', 'transform-react-remove-prop-types']
-          : [],
-      ),
     }),
     replace({
-      'process.env.NODE_ENV': JSON.stringify(env),
+      'process.env.NODE_ENV': JSON.stringify(BUILD_ENV),
     }),
     commonjs({
       include: /node_modules/,
@@ -36,7 +29,7 @@ const config = {
   ],
 }
 
-if (env === 'production') {
+if (BUILD_ENV === 'production') {
   config.plugins.push(uglify())
 }
 

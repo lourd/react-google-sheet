@@ -4,47 +4,54 @@
   "description": "Google sheets data through React components",
   "repository": "lourd/react-google-sheet",
   "homepage": "https://github.com/lourd/react-google-sheet",
-  "author": "Louis DeScioli",
+  "author": "Louis DeScioli (descioli.design)",
   "license": "MIT",
-  "main": "cjs/@lourd/react-google-sheet.js",
-  "module": "esm/@lourd/react-google-sheet.js",
-  "files": ["cjs", "esm", "umd"],
+  "main": "dist/react-google-sheet.js",
+  "module": "dist/react-google-sheet.es.js",
+  "files": ["dist"],
   "scripts": {
     "build": "node ./scripts/build.js",
-    "release": "npm run build && node ./scripts/release.js"
+    "release": "npm run build && node ./scripts/release.js",
+    "test": "jest"
   },
   "peerDependencies": {
     "react": ">=15 || ^16"
   },
   "dependencies": {
-    "prop-types": "^15.6.0",
-    "react-broadcast": "^0.7.0-rc.2"
+    "@lourd/equal-by-keys": "^0.1.2",
+    "@lourd/react-google-api": "^0.1.0",
+    "prop-types": "^15.6.0"
   },
   "devDependencies": {
+    "@lourd/deferred": "^0.1.0",
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.0.0",
     "babel-plugin-dev-expression": "^0.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-react-remove-prop-types": "^0.2.11",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.12",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
-    "eslint": "^3.3.1",
-    "eslint-plugin-import": "^2.0.0",
-    "eslint-plugin-jest": "^21.0.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.1",
     "gzip-size": "^3.0.0",
-    "jest": "^21.0.2",
-    "pascal-case": "^2.0.1",
+    "jest": "^22.0.0",
     "pretty-bytes": "^4.0.0",
+    "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "readline-sync": "^1.4.7",
-    "rollup": "^0.53.4",
+    "rollup": "^0.55.0",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-uglify": "^2.0.1"
+    "rollup-plugin-uglify": "^3.0.0"
   },
-  "keywords": []
+  "keywords": [],
+  "jest": {
+    "setupFiles": ["./scripts/testSetup.js"],
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
+  }
 }

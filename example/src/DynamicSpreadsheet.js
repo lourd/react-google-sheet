@@ -2,7 +2,7 @@ import React from 'react'
 
 import Blob from './Blob'
 import Field from './Field'
-import { GoogleSheet } from '../../modules'
+import { GoogleSheet } from '../../'
 import Select from './Select'
 import Table from './Table'
 

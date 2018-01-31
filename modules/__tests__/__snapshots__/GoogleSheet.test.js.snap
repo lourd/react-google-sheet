@@ -1,0 +1,200 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GSheetData component calls the api methods to load the data and renders the children function with the data loading state and a refetch function: children function calls 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "data": null,
+        "error": null,
+        "loading": false,
+        "refetch": [Function],
+      },
+    ],
+    Array [
+      Object {
+        "data": null,
+        "error": null,
+        "loading": true,
+        "refetch": [Function],
+      },
+    ],
+    Array [
+      Object {
+        "data": Array [
+          "🤖",
+          "👽",
+          "💩",
+        ],
+        "error": null,
+        "loading": false,
+        "refetch": [Function],
+      },
+    ],
+  ],
+}
+`;
+
+exports[`GSheetData component calls the api methods to load the data and renders the children function with the data loading state and a refetch function: loading state 1`] = `
+Object {
+  "data": null,
+  "error": null,
+  "loading": true,
+}
+`;
+
+exports[`GSheetData component calls the api methods to load the data and renders the children function with the data loading state and a refetch function: resolved state 1`] = `
+Object {
+  "data": Array [
+    "🤖",
+    "👽",
+    "💩",
+  ],
+  "error": null,
+  "loading": false,
+}
+`;
+
+exports[`GSheetData component calls the api methods to load the data and renders the children function with the data loading state and a refetch function: spreadsheet data loading method call 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "range": "bar",
+        "spreadsheetId": "foo",
+      },
+    ],
+  ],
+}
+`;
+
+exports[`GSheetData component doesn't update state if the id or range changed while the data was being fetched: final state 1`] = `
+Object {
+  "data": null,
+  "error": null,
+  "loading": true,
+}
+`;
+
+exports[`GSheetData component refetches if the id or range props changes: multiple data loading calls 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "range": "bar",
+        "spreadsheetId": "foo",
+      },
+    ],
+    Array [
+      Object {
+        "range": "bar",
+        "spreadsheetId": "different",
+      },
+    ],
+    Array [
+      Object {
+        "range": "also different ",
+        "spreadsheetId": "different",
+      },
+    ],
+  ],
+}
+`;
+
+exports[`GSheetData component sets the error in state if the data request has an error: children function calls with error state 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "data": null,
+        "error": null,
+        "loading": false,
+        "refetch": [Function],
+      },
+    ],
+    Array [
+      Object {
+        "data": null,
+        "error": null,
+        "loading": true,
+        "refetch": [Function],
+      },
+    ],
+    Array [
+      Object {
+        "data": null,
+        "error": [Error: 👻👹],
+        "loading": false,
+        "refetch": [Function],
+      },
+    ],
+  ],
+}
+`;
+
+exports[`GSheetData component sets the error in state if the data request has an error: resolved error state 1`] = `
+Object {
+  "data": null,
+  "error": [Error: 👻👹],
+  "loading": false,
+}
+`;
+
+exports[`renders the underlying GSheetData component with the api from context and passes through props, freaking out if there isn't an api provided in context: child function calls 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "data": null,
+        "error": null,
+        "loading": false,
+        "refetch": [Function],
+      },
+    ],
+    Array [
+      Object {
+        "data": null,
+        "error": [TypeError: Cannot read property 'client' of null],
+        "loading": false,
+        "refetch": [Function],
+      },
+    ],
+  ],
+}
+`;
+
+exports[`renders the underlying GSheetData component with the api from context and passes through props, freaking out if there isn't an api provided in context: logged errors 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "Warning: Failed prop type: The prop \`api\` is marked as required in \`GSheetData\`, but its value is \`null\`.
+    in GSheetData (created by GoogleApiConsumer)
+    in GoogleApiConsumer (created by GoogleSheet)
+    in GoogleSheet (created by WrapperComponent)
+    in WrapperComponent",
+    ],
+    Array [
+      "Warning: <Consumer> was rendered outside the context of its <Provider>",
+    ],
+  ],
+}
+`;
+
+exports[`renders the underlying GSheetData component with the api from context and passes through props, freaking out if there isn't an api provided in context: mounted component 1`] = `
+<GoogleSheet
+  foo="bar"
+  id="foo"
+  range="things"
+>
+  <GoogleApiConsumer
+    quiet={false}
+  >
+    <GSheetData
+      api={null}
+      foo="bar"
+      id="foo"
+      range="things"
+    />
+  </GoogleApiConsumer>
+</GoogleSheet>
+`;

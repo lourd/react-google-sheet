@@ -5,6 +5,7 @@ const prettyBytes = require('pretty-bytes')
 const gzipSize = require('gzip-size')
 
 process.chdir(path.resolve(__dirname, '..'))
+process.env.BUILDING = true
 
 const exec = (command, extraEnv) =>
   execSync(command, {
@@ -12,27 +13,27 @@ const exec = (command, extraEnv) =>
     env: Object.assign({}, process.env, extraEnv),
   })
 
-const packageName = require('../package').name
+const filename = 'react-google-sheet'
 
 console.log('\nBuilding ES modules...')
 
-exec(`rollup -c -f es -o esm/${packageName}.js`)
-
-console.log('\nBuilding CommonJS modules...')
-
-exec(`rollup -c -f cjs -o cjs/${packageName}.js`)
-
-console.log('\nBuilding UMD modules...')
-
-exec(`rollup -c -f umd -o umd/${packageName}.js`, {
+exec(`rollup -c -f es -o dist/${filename}.es.js`, {
   BUILD_ENV: 'development',
 })
 
-exec(`rollup -c -f umd -o umd/${packageName}.min.js`, {
+console.log('\nBuilding UMD modules...')
+
+exec(`rollup -c -f umd -o dist/${filename}.js`, {
+  BUILD_ENV: 'development',
+})
+
+exec(`rollup -c -f umd -o dist/${filename}.min.js`, {
   BUILD_ENV: 'production',
 })
 
+const minifiedFile = fs.readFileSync(`dist/${filename}.min.js`)
+const minifiedSize = prettyBytes(minifiedFile.byteLength)
+const gzippedSize = prettyBytes(gzipSize.sync(minifiedFile))
 console.log(
-  '\nThe minified, gzipped UMD build is %s',
-  prettyBytes(gzipSize.sync(fs.readFileSync(`umd/${packageName}.min.js`))),
+  `\nThe minified UMD build is ${minifiedSize} (${gzippedSize} gzipped)`,
 )

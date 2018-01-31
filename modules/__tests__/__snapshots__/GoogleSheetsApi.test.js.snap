@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`accepts an array of scopes: custom scopes 1`] = `
+<GoogleSheetsApi
+  apiKey="bar"
+  clientId="foo"
+  scopes={
+    Array [
+      "baz",
+      "yup",
+    ]
+  }
+>
+  <GoogleApi
+    apiKey="bar"
+    clientId="foo"
+    discoveryDocs={
+      Array [
+        "https://sheets.googleapis.com/$discovery/rest?version=v4",
+      ]
+    }
+    scopes={
+      Array [
+        "baz",
+        "yup",
+      ]
+    }
+  >
+    <GoogleApiProvider
+      value={
+        Object {
+          "authorize": [Function],
+          "client": null,
+          "error": null,
+          "loading": true,
+          "signedIn": false,
+          "signout": [Function],
+        }
+      }
+    />
+  </GoogleApi>
+</GoogleSheetsApi>
+`;
+
+exports[`renders the GoogleApi with the sheets discovery doc provided and a default scope and passes all props through: default case 1`] = `
+<GoogleSheetsApi
+  apiKey="bar"
+  clientId="foo"
+  cool="🤠"
+>
+  <GoogleApi
+    apiKey="bar"
+    clientId="foo"
+    cool="🤠"
+    discoveryDocs={
+      Array [
+        "https://sheets.googleapis.com/$discovery/rest?version=v4",
+      ]
+    }
+    scopes={
+      Array [
+        "https://www.googleapis.com/auth/spreadsheets.readonly",
+      ]
+    }
+  >
+    <GoogleApiProvider
+      value={
+        Object {
+          "authorize": [Function],
+          "client": null,
+          "error": null,
+          "loading": true,
+          "signedIn": false,
+          "signout": [Function],
+        }
+      }
+    />
+  </GoogleApi>
+</GoogleSheetsApi>
+`;
