@@ -28,7 +28,9 @@ You can also use your own API key and application ID that you made on the [Googl
 ## Installation
 
 ```sh
-yarn install @lourd/react-google-sheet
+yarn add @lourd/react-google-sheet
+# or
+npm install --save @lourd/react-google-sheet
 ```
 
 ## Reference
