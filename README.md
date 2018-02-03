@@ -52,4 +52,4 @@ This component handles downloading and instantiating the Google sheets browser A
 | id       | `string` | yes      | The id of the spreadsheet             |
 | range    | `string` | yes      | The range of cells in the spreadsheet |
 
-Ths component handles getting the Google client from context and using to to request the data from the Sheets API. See an example of this component used in [DynamicSpreadsheet.js](./example/src/DynamicSpreadsheet.js#L21-L33)
+Ths component handles getting the Google client from context and using it to request the data from the Sheets API. See an example of this component used in [DynamicSpreadsheet.js](./example/src/DynamicSpreadsheet.js#L21-L33)
