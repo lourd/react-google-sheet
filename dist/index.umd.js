@@ -3402,6 +3402,45 @@ GoogleApi.propTypes = {
   children: propTypes$1.oneOfType([propTypes$1.func, propTypes$1.node])
 };
 
+var asyncToGenerator$1 = function (fn) {
+  return function () {
+    var gen = fn.apply(this, arguments);
+    return new Promise(function (resolve, reject) {
+      function step(key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+
+        if (info.done) {
+          resolve(value);
+        } else {
+          return Promise.resolve(value).then(function (value) {
+            step("next", value);
+          }, function (err) {
+            step("throw", err);
+          });
+        }
+      }
+
+      return step("next");
+    });
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
 var _extends$1 = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];
@@ -3462,27 +3501,31 @@ class GSheetData extends React.Component {
     }
   }
 
-  async fetch() {
-    this.setState({ loading: true });
-    try {
-      const params = {
-        spreadsheetId: this.props.id,
-        range: this.props.range
-      };
-      const response = await this.props.api.client.sheets.spreadsheets.values.get(params);
-      // Unable to cancel requests, so we wait until it's done and check it's still the desired one
-      if (this.props.id === params.spreadsheetId && this.props.range === params.range) {
-        this.setState({
-          loading: false,
-          error: null,
-          data: response.result.values
-        });
+  fetch() {
+    var _this = this;
+
+    return asyncToGenerator$1(function* () {
+      _this.setState({ loading: true });
+      try {
+        const params = {
+          spreadsheetId: _this.props.id,
+          range: _this.props.range
+        };
+        const response = yield _this.props.api.client.sheets.spreadsheets.values.get(params);
+        // Unable to cancel requests, so we wait until it's done and check it's still the desired one
+        if (_this.props.id === params.spreadsheetId && _this.props.range === params.range) {
+          _this.setState({
+            loading: false,
+            error: null,
+            data: response.result.values
+          });
+        }
+      } catch (response) {
+        // If the api is still null, this will be a TypeError, not a response object
+        const error = response.result ? response.result.error : response;
+        _this.setState({ loading: false, error });
       }
-    } catch (response) {
-      // If the api is still null, this will be a TypeError, not a response object
-      const error = response.result ? response.result.error : response;
-      this.setState({ loading: false, error });
-    }
+    })();
   }
 
   render() {
