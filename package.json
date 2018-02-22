@@ -6,15 +6,15 @@
   "homepage": "https://github.com/lourd/react-google-sheet",
   "author": "Louis DeScioli (descioli.design)",
   "license": "MIT",
-  "main": "dist/react-google-sheet.js",
-  "module": "dist/react-google-sheet.es.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "node ./scripts/build.js",
     "release": "npm run build && node ./scripts/release.js",
-    "test": "jest"
+    "test": "jest modules"
   },
   "peerDependencies": {
     "react": ">=15 || ^16"
@@ -28,12 +28,11 @@
     "@lourd/deferred": "^0.1.0",
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.0.0",
-    "babel-plugin-dev-expression": "^0.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.12",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.5.0",
-    "babel-preset-stage-2": "^6.5.0",
+    "babel-preset-stage-2": "^6.24.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.1",
