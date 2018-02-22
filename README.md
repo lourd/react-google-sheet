@@ -33,6 +33,24 @@ yarn add @lourd/react-google-sheet
 npm install --save @lourd/react-google-sheet
 ```
 
+### Browser
+
+Available as a simple `<script>` through unpkg.com. The module will be available as the global variable `ReactGoogleSheet`.
+
+#### Development
+
+```html
+<script src="https://unpkg.com/react/umd/react.development.js" type="text/javascript"></script>
+<script src="https://unpkg.com/@lourd/react-google-sheet/dist/index.umd.js" type="text/javascript"></script>
+```
+
+#### Production
+
+```html
+<script src="https://unpkg.com/react/umd/react.production.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/@lourd/react-google-sheet/dist/index.umd.min.js" type="text/javascript"></script>
+```
+
 ## Reference
 
 ```js

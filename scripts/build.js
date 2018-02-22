@@ -1,11 +1,15 @@
 const fs = require('fs')
 const path = require('path')
-const execSync = require('child_process').execSync
+const { execSync } = require('child_process')
+const pkg = require('../package.json')
 const prettyBytes = require('pretty-bytes')
 const gzipSize = require('gzip-size')
 
+const { name, dir } = path.parse(pkg.main)
+
+const filebase = `${dir}/${name}`
+
 process.chdir(path.resolve(__dirname, '..'))
-process.env.BUILDING = true
 
 const exec = (command, extraEnv) =>
   execSync(command, {
@@ -13,27 +17,36 @@ const exec = (command, extraEnv) =>
     env: Object.assign({}, process.env, extraEnv),
   })
 
-const filename = 'react-google-sheet'
+const formats = [
+  { format: 'cjs', file: `${filebase}.js`, description: 'CJS module' },
+  { format: 'es', file: `${filebase}.es.js`, description: 'ES module' },
+  {
+    format: 'umd',
+    file: `${filebase}.umd.js`,
+    description: 'UMD module',
+    env: {
+      BUILD_FORMAT: 'umd',
+    },
+  },
+  {
+    format: 'umd',
+    file: `${filebase}.umd.min.js`,
+    description: 'minified UMD module',
+    env: {
+      BUILD_ENV: 'production',
+      BUILD_FORMAT: 'umd',
+    },
+  },
+]
 
-console.log('\nBuilding ES modules...')
+for (const { format, file, description, env } of formats) {
+  console.log(`Building ${description}...`)
+  exec(`rollup -c -f ${format} -o ${file}`, env)
+}
 
-exec(`rollup -c -f es -o dist/${filename}.es.js`, {
-  BUILD_ENV: 'development',
-})
-
-console.log('\nBuilding UMD modules...')
-
-exec(`rollup -c -f umd -o dist/${filename}.js`, {
-  BUILD_ENV: 'development',
-})
-
-exec(`rollup -c -f umd -o dist/${filename}.min.js`, {
-  BUILD_ENV: 'production',
-})
-
-const minifiedFile = fs.readFileSync(`dist/${filename}.min.js`)
-const minifiedSize = prettyBytes(minifiedFile.byteLength)
-const gzippedSize = prettyBytes(gzipSize.sync(minifiedFile))
-console.log(
-  `\nThe minified UMD build is ${minifiedSize} (${gzippedSize} gzipped)`,
-)
+for (const { file, description } of formats) {
+  const minifiedFile = fs.readFileSync(file)
+  const minifiedSize = prettyBytes(minifiedFile.byteLength)
+  const gzippedSize = prettyBytes(gzipSize.sync(minifiedFile))
+  console.log(`The ${description} is ${minifiedSize}, (${gzippedSize} gzipped)`)
+}
